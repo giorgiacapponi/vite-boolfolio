@@ -1,1 +1,8 @@
-@import "bootstrap/scss/bootstrap"
+@import "bootstrap/scss/bootstrap";
+
+img{
+    height: 50%;
+    &:hover{
+        display: none;
+    }
+}

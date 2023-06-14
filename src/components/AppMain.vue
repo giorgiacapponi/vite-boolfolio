@@ -8,15 +8,40 @@ export default {
         return {
             urlProjects: "http://localhost:8000/api/projects",
             projects: [],
+            last_page:null,
+            current_page:1,
+            
         };
     },
+    components: { AppCard },
     mounted() {
-        axios.get(this.urlProjects)
-            .then(resp => {
-                this.projects = resp.data.results;
-            });
+     this.getProjects();
+           
     },
-    components: { AppCard }
+    computed:{
+       
+ 
+    },
+    methods:{
+        getProjects(page){
+       
+            axios.get(this.urlProjects,{params:{page:page}})
+            .then(resp => {
+                this.projects = resp.data.results.data;
+                this.last_page=resp.data.results.last_page;
+                this.current_page=resp.data.results.current_page;
+                console.log(page);
+
+            });
+
+          
+        
+        },
+       ciao(){
+        console.log('ciao');
+       }
+    },
+  
 }
 </script>
 
@@ -29,5 +54,13 @@ export default {
                 <AppCard :project="project" />
             </div>
         </div>
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+            <ul class="pagination ">
+                <li class="page-item"><a class="page-link" href="#" @click.prevent="(current_page !==1) ? getProjects(--current_page) : ''" >Previous</a></li>
+
+                <li class="page-item" v-for="n in last_page"><a class="page-link" href="#" @click.prevent="getProjects(n)">{{ n }}</a></li>
+                <li class="page-item" ><a class="page-link" href="#"  @click.prevent="(current_page !== last_page) ? getProjects(++current_page) : ''" >Next</a></li>
+            </ul>
+        </nav>
     </div>
 </template>
