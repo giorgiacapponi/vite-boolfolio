@@ -37,9 +37,7 @@ export default {
           
         
         },
-       ciao(){
-        console.log('ciao');
-       }
+      
     },
   
 }
@@ -51,7 +49,7 @@ export default {
     <div class="container">
         <div class="row row-cols-3 g-5">
             <div class="col" v-for="project in projects" :key="project.id">
-                <AppCard :project="project" />
+                <AppCard :project="project" @click="$router.push({name:'show',params:{slug:project.slug}})" />
             </div>
         </div>
         <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
